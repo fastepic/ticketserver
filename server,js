@@ -43,17 +43,17 @@ function readticket( req,res ){
                         
                         }
                       
-                  }
+                  })
                 
               })
               
               if(!partyfound) {
-                res.end(JSON.stringify({ticket:{result:false, info:"Party mistake"}})
+                res.end(JSON.stringify({ticket:{result:false, info:"Party mistake"}}))
                 return;
               }
               
-              if(!ticketok) res.end(JSON.stringify({ticket:{result:false, info:info}}); 
-              else res.end(JSON.stringify({ticket:{result:true, info:info}});
+              if(!ticketok) res.end(JSON.stringify({ticket:{result:false, info:info}})); 
+              else res.end(JSON.stringify({ticket:{result:true, info:info}}));
               
          
          } catch(err){
@@ -72,10 +72,10 @@ const proxy = http.createServer((req, res) => {
         readticket(req, res)
         
       }
-}
+})
 
 proxy.listen(9997, (error) => {
-
+  if(!error) console.log("Server started"); else 
 	console.log(error)
 })
 
