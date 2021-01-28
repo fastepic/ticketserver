@@ -21,10 +21,10 @@ function readticket( req,res ){
               let partyname = null
               let ticketok = false
               let info = ""
-              parties.forEach((item, index)=>{
+              parties.every((item, index)=>{
                   
                   if(!partyfound)
-                  item.tickets.forEach((ticket, tindex)=>{
+                  item.tickets.every((ticket, tindex)=>{
                         if(ticket.public==json.ticket.public){
                           partyfound = true;
                           partyname = item.partyname
