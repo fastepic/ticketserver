@@ -1,7 +1,7 @@
 const http = require('http')
 
 var parties = [{partyname:"Anonymous Party", tickets:[{public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}, 
-                                                      {public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2", used:true, usedtime:1234567890}
+                                                      {public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ1", used:true, usedtime:1234567890}
 						     ]}]
 
 function readticket( req,res ){
@@ -31,14 +31,14 @@ function readticket( req,res ){
                           
                             ticketok = false
                             info = "Ticket is used"
-                            break;
+                            return false;
                           } else {
                             
                             ticketok = true;
                             parties[index].tickets[tindex].used = true
                             parties[index].tickets[tindex].usedtime = Date.now()
                             info = "Ticket OK"
-                            break;
+                            return false;
                           }
                         
                         }
@@ -78,4 +78,3 @@ proxy.listen(9997, (error) => {
   if(!error) console.log("Server started"); else 
 	console.log(error)
 })
-
