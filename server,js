@@ -1,0 +1,83 @@
+const http = require('http')
+
+var parties = [{partyname:"Anonymous Party", tickets:[{public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}, {public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2", used:true, usedtime:1234567890}}]}]
+
+function readticket( req,res ){
+
+    let chuck = ''
+    
+    req.on('data', (chunk) => {
+      chuck +=  chunk.toString();
+    })
+
+    req.on('end', () => {
+    
+         try{
+              // {"ticket":{"public":"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}}
+              let json = JSON.parse(chuck)
+              let partyfound = false
+              let ticketok = false
+              let info = ""
+              parties.forEach((item, index)=>{
+                  
+                  if(!partyfound)
+                  item.tickets.forEach((ticket, tindex)=>{
+                        if(ticket.public==json.ticket.public){
+                          partyfound = true;
+                          
+                          if(ticket.used!=null || ticket.used){
+                          
+                            ticketok = false
+                            info = "Ticket is used"
+                            break;
+                          } else {
+                            
+                            ticketok = true;
+                            parties[index].tickets[tindex].used = true
+                            parties[index].tickets[tindex].usedtime = Date.now()
+                            info = "Ticket OK"
+                            break;
+                          }
+                        
+                        }
+                      
+                  }
+                
+              })
+              
+              if(!partyfound) {
+                res.end(JSON.stringify({ticket:{result:false, info:"Party mistake"}})
+                return;
+              }
+              
+              if(!ticketok) res.end(JSON.stringify({ticket:{result:false, info:info}}); 
+              else res.end(JSON.stringify({ticket:{result:true, info:info}});
+              
+         
+         } catch(err){
+         
+              res.end(JSON.stringify({ticket:{result:false, info:"Wrong request"}}));
+              console.log(err);
+         }
+    })
+
+}
+
+const proxy = http.createServer((req, res) => {
+    
+      if(req.method=="POST") {
+        
+        readticket(req, res)
+        
+      }
+}
+
+	proxy.listen(9997	proxy.listen(21337, (error) => {
+
+		console.log(error)
+	  
+	}), (error) => {
+
+		console.log(error)
+	  
+	})
