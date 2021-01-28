@@ -18,6 +18,7 @@ function readticket( req,res ){
               // {"ticket":{"public":"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}}
               let json = JSON.parse(chuck)
               let partyfound = false
+              let partyname = null
               let ticketok = false
               let info = ""
               parties.forEach((item, index)=>{
@@ -26,6 +27,7 @@ function readticket( req,res ){
                   item.tickets.forEach((ticket, tindex)=>{
                         if(ticket.public==json.ticket.public){
                           partyfound = true;
+                          partyname = item.partyname
                           
                           if(ticket.used!=null || ticket.used){
                           
@@ -48,12 +50,12 @@ function readticket( req,res ){
               })
               
               if(!partyfound) {
-                res.end(JSON.stringify({ticket:{result:false, info:"Party mistake"}}))
+                res.end(JSON.stringify({ticket:{result:false, info:"Party mistake", partyname:partyname}}))
                 return;
               }
               
-              if(!ticketok) res.end(JSON.stringify({ticket:{result:false, info:info}})); 
-              else res.end(JSON.stringify({ticket:{result:true, info:info}}));
+              if(!ticketok) res.end(JSON.stringify({ticket:{result:false, info:info, partyname:partyname}})); 
+              else res.end(JSON.stringify({ticket:{result:true, info:info, partyname:partyname}}));
               
          
          } catch(err){
