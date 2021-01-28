@@ -1,6 +1,8 @@
 const http = require('http')
 
-var parties = [{partyname:"Anonymous Party", tickets:[{public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}, {public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2", used:true, usedtime:1234567890}}]}]
+var parties = [{partyname:"Anonymous Party", tickets:[{public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}, 
+                                                      {public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2", used:true, usedtime:1234567890}}
+						     ]}]
 
 function readticket( req,res ){
 
@@ -72,12 +74,8 @@ const proxy = http.createServer((req, res) => {
       }
 }
 
-	proxy.listen(9997	proxy.listen(21337, (error) => {
+proxy.listen(9997, (error) => {
 
-		console.log(error)
-	  
-	}), (error) => {
+	console.log(error)
+})
 
-		console.log(error)
-	  
-	})
