@@ -1,7 +1,7 @@
 const http = require('http')
 
-var parties = [{partyname:"Anonymous Party", tickets:[{public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}, 
-                                                      {public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ1", used:true, usedtime:1234567890}
+var parties = [{partyname:"Anonymous Party", tickets:[{public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2", secret:"S...."}, 
+                                                      {public:"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ1", secret:"S....", used:true, usedtime:1234567890}
 						     ]}]
 
 function readticket( req,res ){
@@ -15,7 +15,8 @@ function readticket( req,res ){
     req.on('end', () => {
     
          try{
-              // {"ticket":{"public":"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2"}}
+              // {"ticket":{"public":"GCIUHGYTRIT6BSK3KOBOLRCFVIWMYXSS27CA6A3MQNQBM4LOZFTERDQ2", "secret":"empty"}}
+	       // {"ticket":{"public":"empty", "secret":"S..."}}
               let json = JSON.parse(chuck)
               let partyfound = false
               let partyname = null
@@ -25,7 +26,7 @@ function readticket( req,res ){
                   
                   if(!partyfound)
                   item.tickets.every((ticket, tindex)=>{
-                        if(ticket.public==json.ticket.public){
+                        if(ticket.public==json.ticket.public || ticket.secret==json.ticket.secret){
                           partyfound = true;
                           partyname = item.partyname
                           
